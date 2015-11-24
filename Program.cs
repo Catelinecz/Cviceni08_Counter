@@ -20,6 +20,7 @@ namespace Cviceni08_Counter
 
             ICounterItem root = CounterItem.GetRoot(input);
 
+            Console.WriteLine();
             while (true)
             {
                 Console.WriteLine(CounterItem.GetCounterString(root));
