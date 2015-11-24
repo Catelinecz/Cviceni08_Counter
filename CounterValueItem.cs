@@ -27,8 +27,15 @@ namespace Cviceni08_Counter
 
         public override void Increase()
         {
-            this.Value = this.Value == this.MaxValue ? 0 : this.Value + 1;
-            this.Predecessor?.Increase();
+            if (this.Value == this.MaxValue - 1)
+            {
+                this.Value = 0;
+                this.Predecessor?.Increase();
+            }
+            else
+            {
+                this.Value++;
+            }
         }
 
         public override void Reset()
