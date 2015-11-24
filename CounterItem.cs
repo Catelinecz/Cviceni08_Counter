@@ -12,7 +12,7 @@ namespace Cviceni08_Counter
     {
         public abstract void Increase();
         public abstract void Reset();
-        public ICounterItem Predecessor { get; }
+        public ICounterItem Predecessor { get; set; }
 
         public static string GetCounterString(ICounterItem root)
         {
@@ -45,7 +45,7 @@ namespace Cviceni08_Counter
             List<CounterSeparatorItem> separators =
                 Regex.Split(input, @"\d+").Select(x => new CounterSeparatorItem(x)).ToList();
 
-            List<ICounterItem> items = new List<ICounterItem>();
+            List<CounterItem> items = new List<CounterItem>();
 
             if (char.IsNumber(input[0]))
             {
@@ -65,6 +65,13 @@ namespace Cviceni08_Counter
                     items.Insert(index, values[i]);
                 }
             }
+
+            for (int i = items.Count - 1; i > 0; i--)
+            {
+                items[i].Predecessor = items[i - 1];
+            }
+
+            return items.Last();
         }
 
         public abstract override string ToString();

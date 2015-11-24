@@ -9,8 +9,7 @@ namespace Cviceni08_Counter
     internal class CounterValueItem : CounterItem
     {
         public int Value { get; private set; }
-        public int? MaxValue { get; }
-        public ICounterItem Predecessor { get; set; }
+        public int MaxValue { get; }
 
         public CounterValueItem(int value, int maxValue, ICounterItem predecessor = null)
         {
@@ -28,7 +27,7 @@ namespace Cviceni08_Counter
 
         public override void Increase()
         {
-            this.Value = this.Value == this.MaxValue.Value ? 0 : this.Value + 1;
+            this.Value = this.Value == this.MaxValue ? 0 : this.Value + 1;
             this.Predecessor?.Increase();
         }
 

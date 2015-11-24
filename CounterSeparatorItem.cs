@@ -8,7 +8,6 @@ namespace Cviceni08_Counter
 {
     class CounterSeparatorItem : CounterItem
     {
-        public ICounterItem Predecessor { get; }
         public string Value { get; }
 
         public CounterSeparatorItem(string value, ICounterItem predecessor = null)
