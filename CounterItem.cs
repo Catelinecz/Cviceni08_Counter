@@ -14,36 +14,28 @@ namespace Cviceni08_Counter
         public abstract void Reset();
         public ICounterItem Predecessor { get; set; }
 
+        public abstract override string ToString();
+
         public static string GetCounterString(ICounterItem root)
         {
             string result = root.ToString();
 
             if (root.Predecessor != null)
             {
-                result += root.Predecessor.ToString();
+                result = result.Insert(0, CounterItem.GetCounterString(root.Predecessor));
             }
 
             return result;
         }
-
-        public static ICounterItem GetFirstItem(ICounterItem item)
-        {
-            ICounterItem current = item;
-
-            while (current.Predecessor != null)
-            {
-                current = current.Predecessor;
-            }
-
-            return current;
-        }
-
         public static ICounterItem GetRoot(string input)
         {
-            List<CounterValueItem> values =
-                Regex.Split(input, @"\D+").Select(x => new CounterValueItem(int.Parse(x))).ToList();
-            List<CounterSeparatorItem> separators =
-                Regex.Split(input, @"\d+").Select(x => new CounterSeparatorItem(x)).ToList();
+            var splittedValues = Regex.Split(input, @"\D+").ToList();
+            splittedValues.RemoveAll(string.IsNullOrEmpty);
+            List<CounterValueItem> values = splittedValues.Select(x => new CounterValueItem(int.Parse(x))).ToList();
+
+            var splittedSeparators = Regex.Split(input, @"\d+").ToList();
+            splittedSeparators.RemoveAll(string.IsNullOrEmpty);
+            List<CounterSeparatorItem> separators = splittedSeparators.Select(x => new CounterSeparatorItem(x)).ToList();
 
             List<CounterItem> items = new List<CounterItem>();
 
@@ -52,8 +44,15 @@ namespace Cviceni08_Counter
                 items.AddRange(values);
                 for (int i = 0; i < separators.Count; i++)
                 {
-                    int index = (i + 1)*2 - 1;
-                    items.Insert(index, separators[i]);
+                    int index = (i + 1) * 2 - 1;
+                    if (index >= items.Count)
+                    {
+                        items.Add(separators[i]);
+                    }
+                    else
+                    {
+                        items.Insert(index, separators[i]);
+                    }
                 }
             }
             else
@@ -61,8 +60,15 @@ namespace Cviceni08_Counter
                 items.AddRange(separators);
                 for (int i = 0; i < values.Count; i++)
                 {
-                    int index = (i + 1)*2 - 1;
-                    items.Insert(index, values[i]);
+                    int index = (i + 1) * 2 - 1;
+                    if (index >= items.Count)
+                    {
+                        items.Add(values[i]);
+                    }
+                    else
+                    {
+                        items.Insert(index, values[i]);
+                    }
                 }
             }
 
@@ -73,7 +79,5 @@ namespace Cviceni08_Counter
 
             return items.Last();
         }
-
-        public abstract override string ToString();
     }
 }
