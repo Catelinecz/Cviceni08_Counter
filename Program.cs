@@ -12,7 +12,11 @@ namespace Cviceni08_Counter
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Enter your clock parameters in format like '24:60:60.100' for digital clock counter or for example '2 2 2 2' for binary counter (numbers mean maximum values): ");
             string input = Console.ReadLine();
+
+            Console.Write("\nEnter the speed of counter in milliseconds: ");
+            int speed = int.Parse(Console.ReadLine());
 
             ICounterItem root = CounterItem.GetRoot(input);
 
@@ -20,7 +24,7 @@ namespace Cviceni08_Counter
             {
                 Console.WriteLine(CounterItem.GetCounterString(root));
                 root.Increase();
-                Thread.Sleep(1000);
+                Thread.Sleep(speed);
             }
         }
     }
